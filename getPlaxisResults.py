@@ -748,7 +748,7 @@ class Plaxis2dResults (PlaxisScripting):
                 except:
                     print ('...exception soil results ' + phase.Identification.value , pt.x, pt.y)
                     print (pt.name, pt.x, pt.y, mat, el, ux, uy, ut, pux, puy, put, esx, esy, esz, ep1, ep2, ep3, pe, pa, ps, pw, su)
-        columns = 'Phase,Ident,locName,locX(m),locY(m),MaterialID,ElementID,Ux(m),Uy(m),Utot(m),PUx(m),PUy(m),PUtot(m),SigxxEff(kPa),SigyyEff(kPa),SigzzEff(kPa),SigP1Eff(kPa),SigyP2Eff(kPa),SigP3Eff(kPa),PExcess(kPa),PActive(kPa),PSteady(kPa),Pwater(kPa),Suct(kPa)'  
+        columns = 'Phase,PhaseIdent,locName,locX(m),locY(m),MaterialID,ElementID,Ux(m),Uy(m),Utot(m),PUx(m),PUy(m),PUtot(m),SigxxEff(kPa),SigyyEff(kPa),SigzzEff(kPa),SigP1Eff(kPa),SigyP2Eff(kPa),SigP3Eff(kPa),PExcess(kPa),PActive(kPa),PSteady(kPa),Pwater(kPa),Suct(kPa)'  
         formats = '{},{},{},{:2f},{:2f},{:0},{:0},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f}'
         
         if (fileOut != None and tableOut == None):
@@ -895,7 +895,7 @@ class Plaxis2dResults (PlaxisScripting):
                     
             except:
                 print ('...exception reading Plate results ' + phase.Identification.value)
-        columns ='Phase,PhaseIndent,X(m),Y(m),MaterialID,ElementID,Ux(m),Uy(m),Utot(m),PUx(m),PUy(m),PUt(m),U1(m),U2(m),M2D(kNm/m),Q2D(kN/m),Nx2D(kN/m),Nz2D(kN/m)'
+        columns ='Phase,PhaseIdent,X(m),Y(m),MaterialID,ElementID,Ux(m),Uy(m),Utot(m),PUx(m),PUy(m),PUt(m),U1(m),U2(m),M2D(kNm/m),Q2D(kN/m),Nx2D(kN/m),Nz2D(kN/m)'
         formats = '{},{},{:2f},{:2f},{:0},{:0},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f}'
         if (fileOut != None and tableOut == None):
             columns += '\n'
@@ -1168,7 +1168,7 @@ class Plaxis2dResults (PlaxisScripting):
                     aForce2D.append(f2D)
             except:
                  print ('Exception reading  NodeToNodeAnchor in phase' + phase.Name.value, phase.Identification.value)
-        columns = 'Phase,PhaseIndent,X(m),Y(m),MaterialId,ElementId,Ux(m),Uy(m),Utot(m),PUx(m),PUy(m),PUtot(m),U1(m),U2(m),N(kN)'
+        columns = 'Phase,PhaseIdent,X(m),Y(m),MaterialId,ElementId,Ux(m),Uy(m),Utot(m),PUx(m),PUy(m),PUtot(m),U1(m),U2(m),N(kN)'
         formats = '{},{},{:2f},{:2f},{:0},{:0},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f}'
         if (fileOut != None and tableOut == None):
             columns += '\n'
@@ -1288,7 +1288,7 @@ class Plaxis2dResults (PlaxisScripting):
                     aForce2D.append(f2D)
             except:
                 print ('Exception reading  FixedEndAnchor in phase' + phase.Name.value)
-        columns = 'Phase,PhaseIndent,X(m),Y(m),MaterialId,ElementId,Ux(m),Uy(m),Utot(m),PUx(m),PUy(m),PUtot(m),U1(m),U2(m),N(kN)'
+        columns = 'Phase,PhaseIdent,X(m),Y(m),MaterialId,ElementId,Ux(m),Uy(m),Utot(m),PUx(m),PUy(m),PUtot(m),U1(m),U2(m),N(kN)'
         formats = '{},{},{:2f},{:2f},{:0},{:0},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f}'
         if (fileOut != None and tableOut == None):
             columns += '\n'
@@ -1691,13 +1691,16 @@ class Plaxis3dResults (PlaxisScripting):
                 columns = 'Phase, PhaseIdent,X(m),Y(m),Z(m),Ux(m),Uy(m),Uz(m),Utot(m),PUx(m),PUy(m),PUz(m),PUtot(m),SigxxE(kPa),SigyyE(kPa),SigzzE(kPa),SigEff1(kPa),SigEff2(kPa),SigEff3(kPa),pExcess(kPa),pActive(kPa),pSteady(kPa),pWater(kPa)'
                 formats =  '{},{},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f}'
                 if (fileOut != None and tableOut == None):
-                    print('Outputting to file ', fileOut, '....')
+                    print('Outputting to file ', fileOut, '....')  
+                    columns += '\n'
+                    formats += '\n'
                     with open(fileOut, "w") as file:
-                        file.writelines([columns+'\n'])
-                        file.writelines([formats + '\n'.format(pName, pIdent, x, y, z, ux, uy, uz, utot, pux, puy, puz, put, esxx, esyy, eszz, ep1, ep2, ep3, pex, pact, pst, pw)
+                        file.writelines([columns])
+                        file.writelines([formats.format(pName, pIdent, x, y, z, ux, uy, uz, utot, pux, puy, puz, put, esxx, esyy, eszz, ep1, ep2, ep3, pex, pact, pst, pw)
                             for pName, pIdent, x, y, z, ux, uy, uz, utot, pux, puy, puz, put, esxx, esyy, eszz, ep1, ep2, ep3, pex, pact, pst, pw in zip(PhaseName, PhaseIdent, locX, locY, locZ, Mat, El, Uxx, Uyy, Uzz, Utot, PUxx, PUyy, PUzz, PUtot, EffSxx, EffSyy, EffSzz, EffP1, EffP2, EffP3, pExess, pActive, pSteady, pWater)])
                 if (fileOut != None and tableOut != None):
                     print('Outputting to database ', fileOut, '....')
+
                     self.getConnected (fileOut)
                     self.createTable(tableOut, columns, formats)
                     for pName, pIdent, x, y, z, ux, uy, uz, utot, pux, puy, puz, put, esxx, esyy, eszz, ep1, ep2, ep3, pex, pact, pst, pw in zip(PhaseName, PhaseIdent, locX, locY, locZ, Mat, El, Uxx, Uyy, Uzz, Utot, PUxx, PUyy, PUzz, PUtot, EffSxx, EffSyy, EffSzz, EffP1, EffP2, EffP3, pExess, pActive, pSteady, pWater):
@@ -1756,9 +1759,11 @@ class Plaxis3dResults (PlaxisScripting):
                 formats='{},{},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f}'                
                 if (fileOut != None and tableOut == None):
                     print('Outputting to file ', fileOut, '....')
+                    columns += '\n'
+                    formats += '\n'
                     with open(fileOut, "w") as file:
-                        file.writelines([columns+'\n'])
-                        file.writelines([formats+'\n'.format(pName, pIdent, x, y, z, ux, uy, uz, utot, pux, puy, puz, putot)
+                        file.writelines([columns])
+                        file.writelines([formats.format(pName, pIdent, x, y, z, ux, uy, uz, utot, pux, puy, puz, putot)
                             for x, y, z, ux, uy, uz, utot, pux, puy, puz, dutot in zip(PhaseName, PhaseIdent, locX, locY, locZ, Uxx, Uyy, Uzz, Utot, PUxx, PUyy, PUzz, PUtot)])
                 if (fileOut != None and tableOut != None):
                     print('Outputting to database ', fileOut, '....')
@@ -1865,9 +1870,11 @@ class Plaxis3dResults (PlaxisScripting):
         formats='{},{},{:2f},{:2f},{:2f},{:0},{:0},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f}'                
         if (fileOut != None and tableOut == None):
             print('Outputting to file ', fileOut, '....')
+            columns += '\n'
+            formats += '\n'
             with open(fileOut, "w") as file:
-                file.writelines([columns+'\n'])
-                file.writelines([formats+'\n'.format(pName, pIdent, x, y, z, ux, uy, uz, utot, pux, puy, puz, putot)
+                file.writelines([columns])
+                file.writelines([formats.format(pName, pIdent, x, y, z, ux, uy, uz, utot, pux, puy, puz, putot)
                 for x, y, z, ux, uy, uz, utot, pux, puy, puz, dutot in zip(PhaseName, PhaseIdent, locX, locY, locZ, Uxx, Uyy, Uzz, Utot, PUxx, PUyy, PUzz, PUtot)])
         if (fileOut != None and tableOut != None):
             print('Outputting to database ', fileOut, '....')
@@ -1995,9 +2002,11 @@ class Plaxis3dResults (PlaxisScripting):
         formats='{},{},{},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f}'                
         if (fileOut != None and tableOut == None):
             print('Outputting to file ', fileOut, '....')
+            columns += '\n'
+            formats += '\n'
             with open(fileOut, "w") as file:
-                file.writelines([columns +'\n'])
-                file.writelines([formats +'\n'.format(pName, pIdent,locname, float(x), float(y), float(z), mat, el, float(ux), float(uy), float(uz), float(utot), float(pux), float(puy), float(puz), float(putot), float(ex), float(ey), float(ez))
+                file.writelines([columns])
+                file.writelines([formats.format(pName, pIdent,locname, float(x), float(y), float(z), mat, el, float(ux), float(uy), float(uz), float(utot), float(pux), float(puy), float(puz), float(putot), float(ex), float(ey), float(ez))
                 for pName, pIdent, locname, x, y, z, mat, el, ux, uy, uz, utot, pux, puy, puz, putot, ex, ey, ez in zip(phaseName, phaseIdent, locName, locX, locY, locZ, Uxx, Uyy, Uzz, Utot, PUxx, PUyy, PUzz, PUtot, Epsxx, Epsyy, Epszz)])
         if (fileOut != None and tableOut != None):
             print('Outputting to database ', fileOut, '....')
@@ -2114,9 +2123,11 @@ class Plaxis3dResults (PlaxisScripting):
         formats='{},{},{},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f},{:f}'                
         if (fileOut != None and tableOut == None):
             print('Outputting to file ', fileOut, '....')
+            columns += '\n'
+            formats += '\n'
             with open(fileOut, "w") as file:
-                file.writelines([columns + '\n'])
-                file.writelines([formats + '\n'.format(pName, pIdent,locname, float(x), float(y), float(z), float(ux), float(uy), float(uz), float(utot), float(sig_xxt), float(sig_yyt), float(sig_zzt), float(sig_xy), float(sig_yz), float(sig_zx))
+                file.writelines([columns])
+                file.writelines([formats.format(pName, pIdent,locname, float(x), float(y), float(z), float(ux), float(uy), float(uz), float(utot), float(sig_xxt), float(sig_yyt), float(sig_zzt), float(sig_xy), float(sig_yz), float(sig_zx))
                 for pName, pIdent, locname, x, y, z, ux, uy, uz, utot, sig_xxt, sig_yyt, sig_zzt, sig_xy, sig_yz, sig_zx in zip(phaseName, phaseIdent, locName, locX, locY, locZ, Uxx, Uyy, Uzz, Utot, SigxxT, SigyyT, SigzzT, Sigxy, Sigyz, Sigzx)])
         print("end")
         file.close
@@ -2245,13 +2256,15 @@ class Plaxis3dResults (PlaxisScripting):
             except:
                 print ('Exception reading Plate in phase' + phase.Name.value)
 
-        columns ='Phase,PhaseIndent,X(m),Y(m),Z(m),MaterialID,Ux(m),Uy(m),Uz(m),Utot(m),PUx(m),PUy(m),PUz(m),PUt(m),U1(m),U2(m),U3(m),N1(kN/m),N2(kN/m),Q12(kN/m),Q23(kN/m),Q13(kN/m),M11(kNm/m),M22(kNm/m),M12(kNm/m)'
+        columns ='Phase,PhaseIdent,X(m),Y(m),Z(m),MaterialID,Ux(m),Uy(m),Uz(m),Utot(m),PUx(m),PUy(m),PUz(m),PUt(m),U1(m),U2(m),U3(m),N1(kN/m),N2(kN/m),Q12(kN/m),Q23(kN/m),Q13(kN/m),M11(kNm/m),M22(kNm/m),M12(kNm/m)'
         formats = '{},{},{:2f},{:2f},{:2f},{:0},{:0},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f}'
         if (fileOut != None and tableOut == None):
+            columns += '\n'
+            formats += '\n'
             print('Outputing to file ', fileOut, '....')
             with open(fileOut, "w") as file:
-                file.writelines([columns + '\n'])
-                file.writelines([formats + '\n'.format(pname, pident, x, y, z, mat, ux, uy, uz, ut, pux, puy, puz, put, u1, u2, u3, n1, n2, q12, q23, q13, m11, m22, m12)
+                file.writelines([columns])
+                file.writelines([formats.format(pname, pident, x, y, z, mat, ux, uy, uz, ut, pux, puy, puz, put, u1, u2, u3, n1, n2, q12, q23, q13, m11, m22, m12)
                                  for pname, pident, x, y, z, mat, ux, uy, uz, ut, pux, puy, puz, put, u1, u2, u3, n1, n2, q12, q23, q13, m11, m22, m12 in zip(pPhaseName, pPhaseIdent, pX, pY, pZ, pMat, pUx, pUy, pUz, pUt, pPUx, pPUy, pPUz, pPUt, pU1, pU2, pU3, pN1, pN2, pQ12, pQ23, pQ13,pM11, pM22, pM12)])
         if (fileOut != None and tableOut != None):
             print('Outputting to database ', fileOut, '....')
@@ -2416,9 +2429,11 @@ class Plaxis3dResults (PlaxisScripting):
         formats = '{},{},{:2f},{:2f},{:2f},{:0},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f}'
         if (fileOut != None and tableOut == None):
             print('Outputing to file ', fileOut, '....')
+            columns += '\n'
+            formats += '\n'
             with open(fileOut, "w") as file:
-                file.writelines([columns +'\n'])
-                file.writelines([formats + '\n'.format(pname, pident, x, y, z, mat,ux, uy, uz, ut, pux, puy, puz, put, u1, u2, u3, n, q12, q13, m2, m3, tskin, tlat, tlat2)
+                file.writelines([columns])
+                file.writelines([formats.format(pname, pident, x, y, z, mat,ux, uy, uz, ut, pux, puy, puz, put, u1, u2, u3, n, q12, q13, m2, m3, tskin, tlat, tlat2)
                                  for pname, pident, x, y, z, mat, ux, uy, uz, ut, pux, puy, puz, put, u1, u2, u3, n, q12, q13, m2, m3, tskin, tlat, tlat2 in zip(PhaseName, PhaseIdent, eX, eY, eZ, eMat, eUx, eUy, eUz, eUt, ePUx, ePUy, ePUz, ePUt, eU1, eU2, eU3, eN, eQ12, eQ13, eM2, eM3, eTskin, eTlat, eTlat2)])
         if (fileOut != None and tableOut != None):
             print('Outputting to database ', fileOut, '....')
@@ -2552,13 +2567,15 @@ class Plaxis3dResults (PlaxisScripting):
             except:
                  print ('Exception reading  NodeToNodeAnchor in phase' + phase.Name.value, phase.Identification.value)
         
-        columns ='Phase,PhaseIndent,X(m),Y(m),Z(m),Ux(m),Uy(m),Uz(m),Utot(m),PUx(m),PUy(m),PUz(m),PUtot(m),U1(m),U2(m),U3(m),N(kN)'
+        columns ='Phase,PhaseIdent,X(m),Y(m),Z(m),Ux(m),Uy(m),Uz(m),Utot(m),PUx(m),PUy(m),PUz(m),PUtot(m),U1(m),U2(m),U3(m),N(kN)'
         formats = '{},{},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f}'
         if (fileOut != None and tableOut == None):
             print('Outputing to file ', fileOut, '....')
+            columns += '\n'
+            formats += '\n'
             with open(fileOut, "w") as file:
-                file.writelines([columns + '\n'])
-                file.writelines([formats + '\n'.format(pname, pident, x, y, z, ux, uy, uz, ut, pux, puy, puz, put, u1, u2, u3, f3d)
+                file.writelines([columns])
+                file.writelines([formats.format(pname, pident, x, y, z, ux, uy, uz, ut, pux, puy, puz, put, u1, u2, u3, f3d)
                                  for pname, pident, x, y, z, ux, uy, uz, ut, pux, puy, puz, put, u1, u2, u3, f3d in zip(aPhaseName, aPhaseIdent, aX, aY, aZ, aUx, aUy, aUz, aUt, aPUx, aPUy, aPUz, aPUt, aU1, aU2, aU3, aForce3D)])
         if (fileOut != None and tableOut != None):
             print('Outputting to database ', fileOut, '....')
@@ -2685,13 +2702,15 @@ class Plaxis3dResults (PlaxisScripting):
             except:
                 print ('Exception reading  FixedEndAnchor in phase' + phase.Name.value)
                 
-        columns ='Phase,PhaseIndent,X(m),Y(m),Z(m),Ux(m),Uy(m),Uz(m),Utot(m),PUx(m),PUy(m),PUz(m),PUtot(m),U1(m),U2(m),U3(m),N(kN)'
+        columns ='Phase,PhaseIdent,X(m),Y(m),Z(m),Ux(m),Uy(m),Uz(m),Utot(m),PUx(m),PUy(m),PUz(m),PUtot(m),U1(m),U2(m),U3(m),N(kN)'
         formats = '{},{},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f}'
         if (fileOut != None and tableOut == None):
             print('Outputing to file ', fileOut, '....')
+            columns += '\n'
+            formats += '\n'
             with open(fileOut, "w") as file:
-                file.writelines([columns + '\n'])
-                file.writelines([formats + '\n'.format(pname, pident, x, y, z, ux, uy, uz, ut, pux, puy, puz, put, u1, u2, u3, f3d)
+                file.writelines([columns])
+                file.writelines([formats.format(pname, pident, x, y, z, ux, uy, uz, ut, pux, puy, puz, put, u1, u2, u3, f3d)
                                  for pname, pident, x, y, z, ux, uy, uz, ut, pux, puy, puz, put, u1, u2, u3, f3d in zip(aPhaseName, aPhaseIdent, aX, aY, aZ, aUx, aUy, aUz, aUt, aPUx, aPUy, aPUz, aPUt, aU1, aU2, aU3, aForce3D)])
         if (fileOut != None and tableOut != None):
             print('Outputting to database ', fileOut, '....')
@@ -2865,9 +2884,11 @@ class Plaxis3dResults (PlaxisScripting):
         formats = '{},{},{:2f},{:2f},{:2f},{:0},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f},{:2f}'
         if (fileOut != None and tableOut == None):
             print('Outputing to file ', fileOut, '....')
+            columns += '\n'
+            formats += '\n'
             with open(fileOut, "w") as file:
-                file.writelines([columns + '\n'])
-                file.writelines([formats + '\n'.format(pname, pident, x, y, z, mat, ux, uy, uz, ut, pux, puy, puz, put, u1, u2, u3, ens, tns, ss, rss, pe, pa, pst, pw, su, esu)
+                file.writelines([columns])
+                file.writelines([formats.format(pname, pident, x, y, z, mat, ux, uy, uz, ut, pux, puy, puz, put, u1, u2, u3, ens, tns, ss, rss, pe, pa, pst, pw, su, esu)
                 for pname, pident, x, y, z, mat, ux, uy, uz, ut, pux, puy, puz, put, u1, u2, u3, ens, tns, ss, rss, pe, pa, pst, pw, su, esu 
                 in zip(iPhaseName, iPhaseIdent, iX, iY, iZ, iMat, iUx, iUy, iUz, iUt, iPUx, iPUy, iPUz, iPUt, iU1, iU2, iU3, iEffNormalStress, iTotNormalStress, iShearStress, iRelShearStress, iPExcess, iPActive, iPSteady, iPWater, iSuction, iEffSuction)])
         if (fileOut != None and tableOut != None):
@@ -2916,33 +2937,30 @@ class Plaxis3dResults (PlaxisScripting):
                     sphaseEnd=None
                     ):    
     
-        if fileOut is None:
+        if (self.IsDbFile(fileOut) == False):
             fileOut = folderOut + r'\getPlateResults.csv'
         else:
-            if self.IsDbFile(fileOut):
-                tableOut = 'getPlateResults'                
+            tableOut = 'getPlateResults'                
         self.getPlateResults (fileOut=fileOut, tableOut=tableOut,
                        sphaseOrder=sphaseOrder,
                        sphaseStart=sphaseStart,
                        sphaseEnd=sphaseEnd
                        )
         
-        if fileOut is None:
+        if (self.IsDbFile(fileOut) == False):
             fileOut = folderOut + r'\getEmbeddedBeamResults.csv'
         else:
-            if self.IsDbFile(fileOut):
-                tableOut = 'getEmbeddedBeamResults'  
+            tableOut = 'getEmbeddedBeamResults'  
         self.getEmbeddedBeamResults (fileOut=fileOut,tableOut=tableOut,
                        sphaseOrder=sphaseOrder,
                        sphaseStart=sphaseStart,
                        sphaseEnd=sphaseEnd
                        )
 
-        if fileOut is None:
+        if (self.IsDbFile(fileOut) == False):
             fileOut = folderOut + r'\getNodeToNodeAnchorResults.csv'
         else:
-            if self.IsDbFile(fileOut):
-                tableOut = 'getNodeToNodeAnchorResults' 
+            tableOut = 'getNodeToNodeAnchorResults' 
         self.getNodeToNodeAnchorResults (fileOut=fileOut,tableOut=tableOut,
                        sphaseOrder=sphaseOrder,
                        sphaseStart=sphaseStart,
@@ -2950,12 +2968,11 @@ class Plaxis3dResults (PlaxisScripting):
                        )
                        
    
-        if fileOut is None:
+        if (self.IsDbFile(fileOut) == False):
             fileOut = folderOut + r'\getFixedEndAnchorResults.csv'
             tableOut = None
         else:
-            if self.IsDbFile(fileOut):
-                tableOut = 'getFixedEndAnchorResults'
+            tableOut = 'getFixedEndAnchorResults'
         
         self.getFixedEndAnchorResults (fileOut=fileOut,tableOut=tableOut,
                        sphaseOrder=sphaseOrder,
@@ -2963,11 +2980,10 @@ class Plaxis3dResults (PlaxisScripting):
                        sphaseEnd=sphaseEnd
                       )
 
-        if fileOut is None:
+        if (self.IsDbFile(fileOut) == False):
             fileOut = folderOut + r'\getInterfaceResults.csv'
         else:
-            if self.IsDbFile(fileOut):
-                tableOut = 'getInterfaceResults'
+            tableOut = 'getInterfaceResults'
         self.getInterfaceResults  (fileOut=fileOut,tableOut=tableOut,
                        sphaseOrder=sphaseOrder,
                        sphaseStart=sphaseStart,
